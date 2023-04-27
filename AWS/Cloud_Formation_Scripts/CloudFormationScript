@@ -1,0 +1,49 @@
+AWSTemplateFormatVersion: 2010-09-09
+Metadata:
+  'AWS::CloudFormation::Designer':
+    69fa7b97-d2d7-45ea-8dc4-a2fd70a90b23:
+      size:
+        width: 60
+        height: 60
+      position:
+        x: 600
+        'y': 180
+      z: 1
+      embeds: []
+    edbf6536-fa02-41d3-8e65-9696d78e2013:
+      size:
+        width: 60
+        height: 60
+      position:
+        x: 510
+        'y': 180
+      z: 1
+      embeds: []
+Resources:
+  NewEC2Instance:
+    Type: 'AWS::EC2::Instance'
+    Properties:
+      InstanceType: t2.micro
+      ImageId: ami-02396cdd13e9a1257
+      KeyName: ansible
+      SecurityGroupIds:
+        - sg-013e6b6c8233a38c8
+        - sg-066fbedc9cb965bf9
+      Tags:
+        - Key: caldera
+          Value: ''
+    Metadata:
+      'AWS::CloudFormation::Designer':
+        id: 69fa7b97-d2d7-45ea-8dc4-a2fd70a90b23
+  RunShellScript:
+    Type: 'AWS::SSM::Association'
+    Properties:
+      Name: AWS-RunShellScript
+      InstanceId: i-0427b0598ed16123c
+      Parameters:
+        commands:
+          - sleep 300
+          - sudo ansible-playbook -u ec2-user -b /home/ec2-user/install-caldera.yaml --private-key=/home/ec2-user/ansible.pem
+    Metadata:
+      'AWS::CloudFormation::Designer':
+        id: edbf6536-fa02-41d3-8e65-9696d78e2013
